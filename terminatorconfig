@@ -1,0 +1,18 @@
+[global_config]
+[profiles]
+  [[default]]
+    show_titlebar = false
+    use_system_font = False
+    background_darkness = 0.48
+    scrollback_lines = 5000
+    foreground_color = "#ffffff"
+    font = Monospace 16
+    background_color = "#202020"
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
