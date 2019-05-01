@@ -6,7 +6,7 @@
     background_darkness = 0.48
     scrollback_lines = 5000
     foreground_color = "#ffffff"
-    font = Monospace 16
+    font = Hack 16
     background_color = "#202020"
 [layouts]
   [[default]]

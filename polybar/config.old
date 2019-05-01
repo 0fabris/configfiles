@@ -77,56 +77,6 @@ tray-padding = 2
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[bar/albi]
-;monitor = ${env:MONITOR:HDMI-1}
-width = 100%
-height = 20
-;offset-x = 1%
-;offset-y = 1%
-radius = 3.0
-fixed-center = false
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-line-size = 2
-line-color = #f00
-
-border-size = 4
-border-color = #00000000
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-
-modules-left = bspwm i3
-modules-center =
-modules-right = xbacklight alsa pulseaudio xkeyboard cpu temperature wlan eth battery date
-
-tray-position = right
-tray-padding = 2
-;tray-background = #0063ff
-
-;wm-restack = bspwm
-;wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
-
-cursor-click = pointer
-cursor-scroll = ns-resize
-
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%
@@ -139,7 +89,7 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
-label-layout = xkb %layout%
+label-layout = %layout%
 label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
@@ -258,26 +208,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
-label = %CPU:%percentage:2%%
-
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-
-format = <ramp> <label>
-format-underline = #f50a4d
-format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
-
-label = TCPU:%temperature-c%
-label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
+label = %percentage:2%%
 
 [module/memory]
 type = internal/memory
@@ -285,21 +216,21 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = %percentage_used%% di RAM
+label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
 interface = wlp3s0
-interval = 5.0
+interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
 format-connected-underline = #9f78e1
-label-connected = %signal%% @ %essid%
+label-connected = %essid%
 
 format-disconnected =
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
-label-disconnected = %ifname% disconnessa
+;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
 ramp-signal-0 = 
@@ -311,8 +242,8 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = enp0s35
-interval = 5.0
+interface = wwp0s20u4i6
+interval = 3.0
 
 format-connected-underline = #55aa55
 format-connected-prefix = " "
@@ -329,23 +260,23 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date = %d/%m/%Y
+date =
 date-alt = " %Y-%m-%d"
 
-time = %H:%M:%S
+time = %H:%M
 time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
-label = %date% - %time%
+label = %date% %time%
 
 [module/pulseaudio]
 type = internal/pulseaudio
 
 format-volume = <label-volume> <bar-volume>
-label-volume = Vol: %percentage%%
+label-volume = VOL %percentage%%
 label-volume-foreground = ${root.foreground}
 
 label-muted = 🔇 muted
@@ -372,7 +303,7 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 type = internal/alsa
 
 format-volume = <label-volume> <bar-volume>
-label-volume = Volume:
+label-volume = VOL
 label-volume-foreground = ${root.foreground}
 
 format-muted-prefix = " "
@@ -399,24 +330,18 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 [module/battery]
 type = internal/battery
 battery = BAT0
-adapter = ADP0
+adapter = AC
 full-at = 98
 
-poll-interval = 5
-
-label-charging = "Car., %percentage%%"
-
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #feebe6
-
-label-discharging = "Discar., %percentage%%"
+format-charging-underline = #ffb52a
 
 format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = #ffb52a
+format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = #00ff38
+format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -434,6 +359,25 @@ animation-discharging-1 = 
 animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <ramp> <label>
+format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
 type = custom/menu
